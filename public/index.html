@@ -2,60 +2,70 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Telegraph Preview Maker</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegraph Manager</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="app">
-        <!-- Экран редактора -->
-        <div id="editor-screen">
-            <h1>✏️ Создать статью</h1>
+    <div class="container">
+        <header>
+            <h1>📝 Telegraph Manager</h1>
+            <p>Управляйте вашими статьями Telegraph</p>
+        </header>
+
+        <div class="auth-section">
+            <h2>Настройка API</h2>
+            <div class="input-group">
+                <label for="supabase-url">Supabase URL:</label>
+                <input type="text" id="supabase-url" value="https://kdjzvfgcbsmshfkfbfrn.supabase.co" readonly>
+            </div>
+            <div class="input-group">
+                <label for="api-key">API Key:</label>
+                <input type="password" id="api-key" placeholder="Введите ваш API ключ">
+            </div>
+            <button onclick="testConnection()" class="btn-primary">🔗 Проверить подключение</button>
             
-            <div class="input-group">
-                <label for="author">Ваше имя (необязательно):</label>
-                <input type="text" id="author" placeholder="Анонимный автор">
-            </div>
-
-            <div class="input-group">
-                <label for="title">Заголовок статьи:</label>
-                <input type="text" id="title" placeholder="Введите заголовок" required>
-            </div>
-
-            <div class="input-group">
-                <label>Содержание:</label>
-                <div class="toolbar">
-                    <button type="button" onclick="formatText('bold')"><b>B</b></button>
-                    <button type="button" onclick="formatText('italic')"><i>I</i></button>
-                    <button type="button" onclick="formatText('code')"><code>&lt;/&gt;</code></button>
-                    <button type="button" onclick="addLink()">🔗</button>
-                </div>
-                <textarea id="content" placeholder="Начните писать свою статью здесь..." rows="10"></textarea>
-            </div>
-
-            <div class="input-group">
-                <h3>Предпросмотр:</h3>
-                <div id="preview" class="preview-area"></div>
+            <div id="connection-status" class="connection-status disconnected">
+                <span class="status-indicator status-disconnected"></span>
+                <span class="status-text">Не подключено</span>
             </div>
         </div>
 
-        <!-- Экран успеха (изначально скрыт) -->
-        <div id="success-screen" class="hidden">
-            <div class="success-icon">✅</div>
-            <h2>Ваша статья готова!</h2>
-            <p>Ссылка на Telegraph:</p>
-            <a id="result-url" target="_blank" class="article-link">Открыть статью</a>
-            
-            <div class="button-group">
-                <button onclick="shareLink()">📤 Поделиться</button>
-                <button onclick="window.location.reload()">🆕 Создать новую</button>
-            </div>
+        <div class="articles-section">
+            <h2>Мои статьи</h2>
+            <button onclick="loadArticles()" class="btn-primary">🔄 Загрузить статьи</button>
+            <div id="articles-list" class="articles-grid"></div>
         </div>
 
-        <!-- Индикатор загрузки -->
-        <div id="loading" class="loading hidden">Публикация...</div>
+        <div class="create-section">
+            <h2>Создать новую статью</h2>
+            <div class="input-group">
+                <label for="article-title">Заголовок:</label>
+                <input type="text" id="article-title" placeholder="Название статьи">
+            </div>
+            <div class="input-group">
+                <label for="article-author">Автор:</label>
+                <input type="text" id="article-author" placeholder="Имя автора">
+            </div>
+            <div class="input-group">
+                <label for="article-content">Содержание:</label>
+                <textarea id="article-content" placeholder="Текст вашей статьи..." rows="6"></textarea>
+            </div>
+            <div class="input-group">
+                <label for="article-image">Изображение статьи:</label>
+                <input type="file" id="article-image" accept="image/*">
+                <button onclick="uploadImage()" class="btn-secondary">📤 Загрузить изображение</button>
+                <div id="image-preview"></div>
+            </div>
+            <button onclick="createArticle()" class="btn-success">✅ Создать статью</button>
+        </div>
+
+        <div class="logs-section">
+            <h3>Журнал действий</h3>
+            <div id="logs"></div>
+        </div>
     </div>
-    <script src="app.js"></script>
+
+    <script src="script.js"></script>
 </body>
 </html>
