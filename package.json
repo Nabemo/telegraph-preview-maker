@@ -1,0 +1,8 @@
+{
+  "name": "telegraph-preview-maker",
+  "version": "1.0.0",
+  "description": "Telegram Mini App for creating Telegraph articles",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {}
+}
